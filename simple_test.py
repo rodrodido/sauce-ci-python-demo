@@ -1,4 +1,3 @@
-from webbrowser import browser
 from selenium import webdriver
 import unittest
 import os
@@ -13,7 +12,7 @@ class testSauceWrappers(unittest.TestCase):
 
     def setUp(self):
         desired_capabilities = {}
-        desired_capabilities['browser'] = os.environ['SELENIUM_BROWSER']
+        desired_capabilities['browserName'] = os.environ['SELENIUM_BROWSER']
         desired_capabilities['version'] = os.environ['SELENIUM_VERSION']
         desired_capabilities['platform'] = os.environ['SELENIUM_PLATFORM']
         command_executor = "http://%s:%s@%s:%s/wd/hub" % (os.environ['SAUCE_USER_NAME'], os.environ['SAUCE_API_KEY'], os.environ['SELENIUM_HOST'], os.environ['SELENIUM_PORT'])
@@ -21,9 +20,10 @@ class testSauceWrappers(unittest.TestCase):
 
 
     def test_amazon(self):
-        self.driver.get("http://amazon.com")
+        driver = self.driver
+        driver.get("http://amazon.com")
         print "\rSauceOnDemandSessionID=%s job-name=%s" % (self.driver.session_id, "test_amazon")
-        assert "Amazon.com" in browser.title
+        assert "Amazon.com" in driver.title
         driver.quit()
 
 
